@@ -7,9 +7,8 @@ public class Volvo240 extends Car {
     private final static double trimFactor = 1.25;
 
     public Volvo240(int nrDoors, double enginePower, Color color,
-                    String modelName)
-    {
-        super(nrDoors, enginePower, color, modelName);
+                    String modelName, Direction currentDirection) {
+        super(nrDoors, enginePower, color, modelName, currentDirection);
     }
 
     @Override
@@ -24,7 +23,7 @@ public class Volvo240 extends Car {
 
     @Override
     public void decrementSpeed(double amount) {
-        currentSpeed = Math.max(getCurrentSpeed() + speedFactor() * amount,enginePower);
+        currentSpeed = Math.max(getCurrentSpeed() + speedFactor() * amount, enginePower);
     }
 
 
@@ -33,13 +32,4 @@ public class Volvo240 extends Car {
 
     }
 
-    @Override
-    public void turnLeft() {
-
-    }
-
-    @Override
-    public void turnRight() {
-
-    }
 }
