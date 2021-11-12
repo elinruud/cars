@@ -1,33 +1,58 @@
 package com.example.cars;
 
-public enum Direction{
+public enum Direction {
 
-    North(0, 1), East(1 ,0), South(0, -1),  West(-1 ,0);
-
-    private double x;
-    private double y;
-
-    Direction(double x, double y){
-        this.x = x;
-        this.y = y;
+    North, East, South, West;
 
 
+    public Direction turnRight() {
+
+        if (this == Direction.North) {
+            return Direction.East;
+        } else if (this == Direction.East) {
+            return Direction.South;
+        } else if (this == Direction.South) {
+            return Direction.West;
+        } else {
+            return Direction.North;
         }
 
-    public double getX() {
-        return x;
     }
 
-    public double getY() {
-        return y;
+    public Direction turnLeft() {
+
+        if (this == Direction.North) {
+            return Direction.West;
+        } else if (this == Direction.East) {
+            return Direction.North;
+        } else if (this == Direction.South) {
+            return Direction.East;
+        } else {
+            return Direction.South;
+        }
+
     }
+
+
 }
 
+//private double x;
+//private double y;
+
+//Direction(double x, double y){
+//  this.x = x;
+//this.y = y;
 
 
+//    }
 
+// public double getX() {
+//  return x;
+//}
 
-
+//public double getY() {
+//  return y;
+// }
 
 
 //public enum Direction {
