@@ -1,3 +1,5 @@
+package com.example.cars;
+
 import java.awt.*;
 
 public abstract class Car implements Movable {
@@ -108,35 +110,3 @@ public abstract class Car implements Movable {
 
 // SpeedFactor, increment speed, decrement speed
 // TODO Gas/brake
-        else if(currentDirection == Direction.South){
-            y--;
-        }
-        else{
-            x--;
-        }
-    }
-
-    public turnLeft() {
-        getPrevious();
-    }
-
-    public turnRight() {
-        getNext();
-    }
-
-
-    // TODO fix this method according to lab pm
-    protected void gas(double amount){
-        incrementSpeed(amount);
-    }
-
-    // TODO fix this method according to lab pm
-    protected void brake(double amount){
-        decrementSpeed(amount);
-    }
-}
-
-
-
-        // SpeedFactor, increment speed, decrement speed
-        // TODO Gas/brake
