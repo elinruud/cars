@@ -1,5 +1,3 @@
-package com.example.cars;
-
 import java.awt.*;
 
 public abstract class Car implements Movable {
@@ -14,25 +12,24 @@ public abstract class Car implements Movable {
     private double y;
     //constructor
 
-    protected Car(int nrDoors, double enginePower, Color color, String modelName, Direction currentDirection)
-    {
+    protected Car(int nrDoors, double enginePower, Color color, String modelName, Direction currentDirection) {
         this.nrDoors = nrDoors;
         this.color = color;
         this.enginePower = enginePower;
         this.modelName = modelName;
         this.x = 0;
         this.y = 0;
-        this.currentDirection = Direction.North;
+        this.currentDirection = currentDirection;
         stopEngine();
     }
 
     // Car has 7+2ToDo Methods
 
-    protected int getNrDoors(){
+    protected int getNrDoors() {
         return nrDoors;
     }
 
-    protected double getEnginePower(){
+    protected double getEnginePower() {
         return enginePower;
     }
 
@@ -61,11 +58,11 @@ public abstract class Car implements Movable {
     }
 
 
-    protected void incrementSpeed(double amount){
+    protected void incrementSpeed(double amount) {
         currentSpeed = getCurrentSpeed() + speedFactor() * amount;
     }
 
-    protected void decrementSpeed(double amount){
+    protected void decrementSpeed(double amount) {
         currentSpeed = getCurrentSpeed() - speedFactor() * amount;
     }
 
@@ -74,49 +71,43 @@ public abstract class Car implements Movable {
         return currentDirection;
     }
 
-    protected Direction getNext(){
-        // turn right
+    public void turnRight() {
+        currentDirection = getCurrentDirection().turnRight();
+    }
 
-        if(currentDirection == Direction.North) {
-            currentDirection = Direction.East;
-        }
-        else if(currentDirection == Direction.East){
-            currentDirection = Direction.South;
-            }
-        else if(currentDirection == Direction.South){
-            currentDirection = Direction.West;
-        }
-        else{
-            currentDirection = Direction.North;
-        }
-        return currentDirection;
-        }
-
-    protected Direction getPrevious(){
-
-        if(currentDirection == Direction.North) {
-            currentDirection = Direction.West;
-        }
-        else if(currentDirection == Direction.West){
-            currentDirection = Direction.South;
-        }
-        else if(currentDirection == Direction.South){
-            currentDirection = Direction.East;
-        }
-        else{
-            currentDirection = Direction.North;
-        }
+    public void turnLeft() {
+        currentDirection = getCurrentDirection().turnLeft();
     }
 
 
     public void move() {
         // print out current direction, "moving "currentDirection" " and coordinates
-        if (currentDirection == Direction.North){
-            y= y + getCurrentSpeed();
+        if (currentDirection == Direction.North) {
+            y = y + getCurrentSpeed();
+        } else if (currentDirection == Direction.East) {
+            x = x + getCurrentSpeed();
+        } else if (currentDirection == Direction.South) {
+            y = y - getCurrentSpeed();
+        } else {
+            x = x - getCurrentSpeed();
         }
-        else if(currentDirection == Direction.East){
-            x++;
-        }
+    }
+
+
+    // TODO fix this method according to lab pm
+    protected void gas(double amount) {
+        incrementSpeed(amount);
+    }
+
+    // TODO fix this method according to lab pm
+    protected void brake(double amount) {
+        decrementSpeed(amount);
+    }
+}
+
+
+// SpeedFactor, increment speed, decrement speed
+// TODO Gas/brake
         else if(currentDirection == Direction.South){
             y--;
         }
