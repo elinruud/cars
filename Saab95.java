@@ -6,9 +6,9 @@ public class Saab95 extends Car {
 
     private boolean turboOn;
 
-    public Saab95(int nrDoors, double enginePower, Color color, String modelName)
-    {
-        super(nrDoors, enginePower, color, modelName);
+    public Saab95(int nrDoors, double enginePower, Color color,
+                  String modelName, Direction currentDirection) {
+        super(nrDoors, enginePower, color, modelName, currentDirection);
         turboOn = false;
     }
 
