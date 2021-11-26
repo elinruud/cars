@@ -1,16 +1,17 @@
 package com.example.cars;
 
+
 import java.awt.*;
 
-public class Scania extends Car{
-
+public class Scania extends Truck{
+    private int nrDoors;
     private double platform;
     private final static double trimFactor = 3.5;
 
-    protected Scania(int nrDoors, double enginePower, Color color,
-                     String modelName, Direction currentDirection) {
-        super(nrDoors, enginePower, color, modelName, currentDirection);
-        this.platform = 0;
+    public Scania(int nrDoors, double enginePower, Color color,
+                  String modelName, Direction currentDirection, double mass) {
+        super(nrDoors, enginePower , color, modelName, currentDirection, mass);
+        platform = 0;
     }
 
     public double speedFactor(){
@@ -18,7 +19,7 @@ public class Scania extends Car{
     }
 
 
-    public void raisePlatform() {
+    private void raisePlatform() {
         if( getCurrentSpeed() != 0 ) {
             System.out.println("Can't set platform above 0° while truck is in motion");
         }
@@ -31,7 +32,7 @@ public class Scania extends Car{
 
     }
 
-    public void lowerPlatform() {
+    private void lowerPlatform() {
         if (platform >= 10) {
             platform -= 10;
         } else if (platform == 0) {
@@ -45,13 +46,13 @@ public class Scania extends Car{
 
     @Override
     public void startEngine() {
-            if (platform == 0) {
-                setCurrentSpeed(0.1);
-            }
-            else {
-                System.out.println("Platform must be at 0° to start engine");
-            }
+        if (platform == 0) {
+            startEngine();
         }
+        else {
+            System.out.println("Platform must be at 0° to start engine");
+        }
+    }
 
 
 }
