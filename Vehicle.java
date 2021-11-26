@@ -3,95 +3,98 @@ package com.example.cars;
 import java.awt.*;
 
 public abstract class Vehicle implements Movable {
-
-    public double currentSpeed;
-    private Color color; // Color of the vehicle
-    private double mass; // Weight of vehicle
-    private String modelName; // The vehicles model name
+    private double currentSpeed; // The current speed of the car
+    private Color color; // Color of the car
+    private String modelName; // The car model name
     private Direction currentDirection;
     private double x;
     private double y;
+    private double mass;
+    private double enginePower; // Engine power of the car
 
-    public Vehicle(Color color, double mass, String modelName, Direction currentDirection) {
 
+    protected Vehicle(double enginePower, Color color, String modelName, Direction currentDirection, double mass) {
         this.color = color;
-        this.mass = mass;
         this.modelName = modelName;
         this.x = 0;
         this.y = 0;
         this.currentDirection = currentDirection;
-    }
-
-    /**
-     * Gets color of car
-     * @return What color the car has
-     */
-    public Color getColor() {
-        return color;
-    }
-
-    /**
-     * gives this?? car a new color
-     * @param clr The new color
-     */
-    public void setColor(Color clr) {
-        color = clr;
-    }
-
-    public double getMass() {
-        return mass;
+        this.mass = mass;
+        this.enginePower = enginePower;
     }
 
 
-    /**
-     * Gets the current speed
-     * @return Tells current speed of car
-     */
+    public double getEnginePower() {
+        return enginePower;
+    }
+
+
+    public void startEngine() {
+        currentSpeed = 0.1;
+    }
+
+    public void stopEngine() {
+        currentSpeed = 0;
+    }
+
     public double getCurrentSpeed() {
         return currentSpeed;
     }
 
-    /**
-     * Gets current direction of this car. South, west, north or east.
-     * @return in which direction this car is pointing.
-     */
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color clr) {
+        color = clr;
+    }
+
+    protected void setx(double x) {
+        this.x = x;
+    }
+
+    protected void sety(double y) {
+        this.y = y;
+    }
+
+
+    public double getx() {
+        return x;
+    }
+
+    public double gety() {
+        return y;
+    }
+
+    public double getmass() {
+        return mass;
+    }
+
+    public abstract double speedFactor();
+
+
+    private void incrementSpeed(double amount) {
+        currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount, enginePower);
+    }
+
+
+    private void decrementSpeed(double amount) {
+        currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount, 0);
+    }
+
     public Direction getCurrentDirection() {
         return currentDirection;
     }
 
-    /**
-     * Turns car one step clockwise
-     */
     public void turnRight() {
         currentDirection = getCurrentDirection().turnRight();
     }
 
-    /**
-     * switches direction one step depending on what direction it's pointing in
-     */
     public void turnLeft() {
         currentDirection = getCurrentDirection().turnLeft();
     }
 
-    /**
-     * Where this car is in X axis
-     * @return The x-coordinate
-     */
-    public double getX() {
-        return x;
-    }
-
-    /**
-     * Where this car is in Y axis
-     * @return The y-coordinate
-     */
-    public double getY() {
-        return y;
-    }
-
-    /**
-     * Moves car in x- or y-axis depending on which direction this car is pointing
-     */
     public void move() {
         // print out current direction, "moving "currentDirection" " and coordinates
         if (currentDirection == Direction.North) {
@@ -104,6 +107,21 @@ public abstract class Vehicle implements Movable {
             x = x - getCurrentSpeed();
         }
     }
+
+    protected void gas(double amount) {
+        if (amount >= 0 && amount <= 1) {
+            incrementSpeed(amount);
+        }
+    }
+
+    // TODO fix this method according to lab pm
+    protected void brake(double amount){
+        if (amount >= 0 && amount <= 1) {
+            decrementSpeed(amount);
+        }
+    }
+
+
 
 
 }
