@@ -2,111 +2,90 @@ package com.example.cars;
 
 import java.awt.*;
 
-public abstract class Car implements Movable {
+public abstract class Car extends Vehicle {
+
 
     private int nrDoors; // Number of doors on the car
-    protected double enginePower; // Engine power of the car
-    protected double currentSpeed; // The current speed of the car}
-    private Color color; // Color of the car
-    private String modelName; // The car model name
-    private Direction currentDirection;
-    private double x;
-    private double y;
+    private double enginePower; // Engine power of the car
+
     //constructor
 
-    protected Car(int nrDoors, double enginePower, Color color, String modelName, Direction currentDirection) {
+    protected Car(int nrDoors, double enginePower, Color color, double mass, String modelName, Direction currentDirection) {
+        super(color, mass, modelName, currentDirection);
         this.nrDoors = nrDoors;
-        this.color = color;
         this.enginePower = enginePower;
-        this.modelName = modelName;
-        this.x = 0;
-        this.y = 0;
-        this.currentDirection = currentDirection;
         stopEngine();
     }
 
-    // Car has 7+2ToDo Methods
-
+    /**
+     * Gets number of doors
+     * @return number of doors that the car has
+     */
     public int getNrDoors() {
         return nrDoors;
     }
 
+    /**
+     * Gets engine power
+     * @return Power of the engine
+     */
     public double getEnginePower() {
         return enginePower;
     }
 
-    public double getCurrentSpeed() {
-        return currentSpeed;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color clr) {
-        color = clr;
-    }
-
-    protected void startEngine() {
+    /**
+     * Turns engine on and sets current speed to 0.1
+     */
+    public void startEngine() {
         currentSpeed = 0.1;
     }
 
-    protected void stopEngine() {
+    /**
+     * Turns engine off and sets current speed to 0.
+     */
+    public void stopEngine() {
         currentSpeed = 0;
     }
 
-    protected double speedFactor() {
-        return 0; //override in each subclass
+    /**
+     * Forces each subclass to have a speed factor.
+     * @return How fast this car accelerates.
+     */
+    public abstract double speedFactor();
+
+    /**
+     * Increases speed of this car.
+     * @param amount How much we increase the speed, how far we push down the gas pedal.
+     */
+    private void incrementSpeed(double amount) {
+        currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount, enginePower);
     }
 
-
-    protected void incrementSpeed(double amount) {
-        currentSpeed = getCurrentSpeed() + speedFactor() * amount;
+    /**
+     * decreases the speed of this car.
+     * @param amount How much we decrease the speed, how far we push down the break.
+     */
+    private void decrementSpeed(double amount) {
+        currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount, 0);
     }
 
-    protected void decrementSpeed(double amount) {
-        currentSpeed = getCurrentSpeed() - speedFactor() * amount;
-    }
-
-
-    public Direction getCurrentDirection() {
-        return currentDirection;
-    }
-
-    public void turnRight() {
-        currentDirection = getCurrentDirection().turnRight();
-    }
-
-    public void turnLeft() {
-        currentDirection = getCurrentDirection().turnLeft();
-    }
-
-
-    public void move() {
-        // print out current direction, "moving "currentDirection" " and coordinates
-        if (currentDirection == Direction.North) {
-            y = y + getCurrentSpeed();
-        } else if (currentDirection == Direction.East) {
-            x = x + getCurrentSpeed();
-        } else if (currentDirection == Direction.South) {
-            y = y - getCurrentSpeed();
-        } else {
-            x = x - getCurrentSpeed();
+    /**
+     * Is called upon to increase speed of car
+     * @param amount how much we push the gas pedal
+     */
+    public void gas(double amount) {
+        if(0 <= amount && 1 >= amount) {
+            incrementSpeed(amount);
         }
     }
 
-
-    // TODO fix this method according to lab pm
-    protected void gas(double amount) {
-        incrementSpeed(amount);
-    }
-
-    // TODO fix this method according to lab pm
-    protected void brake(double amount) {
-        decrementSpeed(amount);
+    /**
+     * Is called upon when we want to brake, decrease the speed
+     * @param amount How much we push the break pedal, where 0 is non and 1 is to the floor
+     */
+    public void brake(double amount) {
+        if(0 <= amount || 1>= amount) {
+            decrementSpeed(amount);
+        }
     }
 }
-
-
-// SpeedFactor, increment speed, decrement speed
-// TODO Gas/brake
