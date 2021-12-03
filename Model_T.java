@@ -1,20 +1,17 @@
 package com.example.cars;
 
 import java.awt.*;
-import java.util.Stack;
-
 
 public class Model_T extends Truck{
-
+    private Storage<Car> helper = new Storage<>(3);
     private boolean rampdown;
     private final static double trimFactor = 3;
-    private Stack<Car> listofcars;
 
     public Model_T(int nrDoors, double enginePower, Color color,
                   String modelName, Direction currentDirection, double mass) {
         super(nrDoors, enginePower , color, modelName, currentDirection, mass);
 
-        listofcars = new Stack<>();
+
     }
 
     public void setrampdown() {
@@ -29,53 +26,45 @@ public class Model_T extends Truck{
         }
     }
 
-    public Stack getListOfCars() {
-        return listofcars;
-    }
 
     public void put_car_in(Car car) {
-        double delta_x = this.getx() - car.getx();
-        double delta_y = this.gety() - car.gety();
-        if (Math.pow(delta_x, 2) + Math.pow(delta_y, 2) < 25 && rampdown) {
-            listofcars.push(car);
+        if (rampdown) {
+            helper.put_car_in(getx(), gety(), car);
         }
     }
 
     public void move_exit(Car car) {
         // print out current direction, "moving "currentDirection" " and coordinates
         if (this.getCurrentDirection() == Direction.North) {
-            car.sety(this.gety() - listofcars.size());
+            car.sety(this.gety() - helper.getvehicle_load().size());
         } else if (this.getCurrentDirection() == Direction.East) {
-            car.setx(this.getx() - listofcars.size());
+            car.setx(this.getx() - helper.getvehicle_load().size());
         } else if (this.getCurrentDirection() == Direction.South) {
-            car.sety(this.gety() + listofcars.size());
+            car.sety(this.gety() + helper.getvehicle_load().size());
         } else {
-            car.setx(this.getx() + listofcars.size());
+            car.setx(this.getx() + helper.getvehicle_load().size());
         }
     }
 
     @Override
-    public void move(){
-        for (Car listofcar : listofcars) {
-            listofcar.setx(this.getx());
-            listofcar.sety(this.gety());
-        }
+    public void move() {
         super.move();
-    }
-
-
-
-
-    public void exit_car() {
-        if (rampdown) {
-            Car car = listofcars.pop();
-            move_exit(car);
+        for (Car carInlist : helper.getvehicle_load()){
+            carInlist.setx(this.getx());
+            carInlist.sety(this.gety());
+            }
         }
-    }
 
 
-    
-    public double speedFactor() {
-        return getEnginePower() * 0.01 * trimFactor;
-    }
+        public void get_vehicle_out () {
+            if (rampdown) {
+                helper.exit_car();
+                move_exit((Car) helper.exit_car());
+            }
+        }
+
+
+        public double speedFactor () {
+            return getEnginePower() * 0.01 * trimFactor;
+        }
 }
