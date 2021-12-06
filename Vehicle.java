@@ -86,6 +86,21 @@ public abstract class Vehicle implements Movable {
     public Direction getCurrentDirection() {
         return currentDirection;
     }
+    
+    public Direction oppositeDirection(){
+        if(currentDirection == Direction.North){
+            return currentDirection = Direction.South;
+        }
+        else if(currentDirection == Direction.East){
+            return currentDirection = Direction.West;
+        }
+        else if(currentDirection == Direction.South){
+            return currentDirection = Direction.North;
+        }
+        else{
+            return currentDirection = Direction.East;
+        }
+    }
 
     public void turnRight() {
         currentDirection = getCurrentDirection().turnRight();
@@ -96,15 +111,42 @@ public abstract class Vehicle implements Movable {
     }
 
     public void move() {
-        // print out current direction, "moving "currentDirection" " and coordinates
         if (currentDirection == Direction.North) {
-            y = y + getCurrentSpeed();
+            if (getY() + getCurrentSpeed() < 560) {
+                y = y + getCurrentSpeed();
+            } else {
+                stopEngine();
+                y = y - getCurrentSpeed();
+                oppositeDirection();
+                startEngine();
+            }
         } else if (currentDirection == Direction.East) {
-            x = x + getCurrentSpeed();
+            if (getX() + getCurrentSpeed() < 800) {
+                x = x + getCurrentSpeed();
+            } else {
+                stopEngine();
+                x = x - getCurrentSpeed();
+                oppositeDirection();
+                startEngine();
+            }
         } else if (currentDirection == Direction.South) {
-            y = y - getCurrentSpeed();
+            if (getY() + getCurrentSpeed() > 0) {
+                y = y - getCurrentSpeed();
+            } else {
+                stopEngine();
+                y = y + getCurrentSpeed();
+                oppositeDirection();
+                startEngine(); // How fats it bounces back should depend on how fast the car was driving before crash
+            }
         } else {
-            x = x - getCurrentSpeed();
+            if (getX() + getCurrentSpeed() > 0) {
+                x = x - getCurrentSpeed();
+            } else {
+                stopEngine();
+                x = x + getCurrentSpeed();
+                oppositeDirection();
+                startEngine();
+            }
         }
     }
 
