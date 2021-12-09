@@ -1,13 +1,11 @@
-package Visuals.laboration;
+package com.example.visual_laboation2;
 
 import com.example.cars.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 
 /*
 * This class represents the Controller part in the MVC pattern.
@@ -16,7 +14,6 @@ import java.util.ArrayList;
  */
 
 public class CarController {
-
     // member fields:
 
     // The delay (ms) corresponds to 20 updates a sec (hz)
@@ -28,26 +25,32 @@ public class CarController {
     // The frame that represents this instance View of the MVC pattern
     CarView frame;
     // A list of cars, modify if needed
-    ArrayList<Vehicle> cars = new ArrayList<>();
+    ArrayList<Vehicle> vehicles = new ArrayList<>();
     ArrayList<Saab95> saablist = new ArrayList<>();
     ArrayList<Scania> scanialist = new ArrayList<>();
+
     //methods:
 
     public static void main(String[] args) {
         // Instance of this class
         CarController cc = new CarController();
 
-        Saab95 saab1 = new Saab95(4, 125, Color.black, "Saab95", Direction.East,1300);
+        Saab95 saab1 = new Saab95(4, 100, Color.black, "Saab95", Direction.East,1300);
+        Scania scania1 = new Scania(2, 150, Color.black, "Scania", Direction.East,2500);
+        Volvo240 volvo1 = new Volvo240(4, 100, Color.black, "Volvo240", Direction.East,1300);
 
-        cc.cars.add(new Volvo240(4, 100, Color.black, "Volvo240", Direction.East,1300));
-        cc.cars.add(saab1);
-        cc.cars.add(new Scania(2, 150, Color.black, "Scania", Direction.East,2500));
+        cc.vehicles.add(volvo1);
+        cc.vehicles.add(saab1);
+        cc.vehicles.add(scania1);
 
         cc.saablist.add(saab1);
+        cc.scanialist.add(scania1);
 
 
-    // Start a new view and send a reference of self
+
+        // Start a new view and send a reference of self
         cc.frame = new CarView("CarSim 1.0", cc);
+
 
         // Start the timer
         cc.timer.start();
@@ -58,15 +61,22 @@ public class CarController {
     * */
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            for (Vehicle car : cars) {
-                car.move();
-                int x = (int) Math.round(car.getx());
-                int y = (int) Math.round(car.gety());
-                frame.drawPanel.move_volvo(x, y);
-                frame.drawPanel.move_saab(x,y);
-                frame.drawPanel.move_scania(x,y);
+            for (Vehicle vehicle : vehicles) {
+                vehicle.move();
+                int x = (int) Math.round(vehicle.getX());
+                int y = (int) Math.round(vehicle.getY());
+                if(saablist.contains(vehicle)){
+                    frame.drawPanel.moveSaab(x, y);
+                }
+                else if (scanialist.contains(vehicle)){
+                    frame.drawPanel.moveScania(x, y);
+                }
+                else{
+                    frame.drawPanel.moveVolvo(x, y);
+                }
                 // repaint() calls the paintComponent method of the panel
                 frame.drawPanel.repaint();
+
             }
         }
     }
@@ -74,29 +84,31 @@ public class CarController {
     // Calls the gas method for each car once
     void gas(int amount) {
         double gas = ((double) amount) / 100;
-        for (Vehicle car : cars
+        for (Vehicle vehicle : vehicles
                 ) {
-            car.gas(gas);
+            vehicle.gas(gas);
         }
     }
 
-    void brake (int amount) {
+    void brake(int amount) {
         double brake = ((double) amount) / 100;
-        for (Vehicle car : cars
-        ){
-            car.brake(brake);
+        for (Vehicle vehicle : vehicles
+        ) {
+            vehicle.brake(brake);
         }
     }
 
-    void start_all_cars(){
-       for (Vehicle car: cars){
-           car.startEngine();
-       }
+    void startEngine() {
+        for (Vehicle vehicle : vehicles
+        ) {
+            vehicle.startEngine();
+        }
     }
 
-    void stop_all_cars() {
-        for (Vehicle car: cars) {
-            car.stopEngine();
+    void stopEngine() {
+        for (Vehicle vehicle : vehicles
+        ) {
+            vehicle.stopEngine();
         }
     }
 
