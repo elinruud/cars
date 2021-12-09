@@ -1,5 +1,6 @@
-package Visuals.laboration;
+package com.example.visual_laboation2;
 
+import com.example.cars.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -22,17 +23,13 @@ public class CarView extends JFrame{
     // The controller member
     CarController carC;
 
-
     DrawPanel drawPanel = new DrawPanel(X, Y-240);
 
     JPanel controlPanel = new JPanel();
 
     JPanel gasPanel = new JPanel();
     JSpinner gasSpinner = new JSpinner();
-
-
     int gasAmount = 0;
-    int brakeAmount = 0;
     JLabel gasLabel = new JLabel("Amount of gas");
 
     JButton gasButton = new JButton("Gas");
@@ -50,8 +47,6 @@ public class CarView extends JFrame{
         this.carC = cc;
         initComponents(framename);
     }
-
-
 
     // Sets everything in place and fits everything
     // TODO: Take a good look and make sure you understand how these methods and components work
@@ -74,7 +69,6 @@ public class CarView extends JFrame{
         gasSpinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 gasAmount = (int) ((JSpinner)e.getSource()).getValue();
-                brakeAmount = (int) ((JSpinner)e.getSource()).getValue();
             }
         });
 
@@ -115,26 +109,25 @@ public class CarView extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 carC.gas(gasAmount);
             }
-            });
+        });
 
         brakeButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e ){
-                    carC.brake(brakeAmount);
-                }
-            });
+            @Override
+            public void actionPerformed(ActionEvent e) { carC.brake(gasAmount);
+            }
+        });
 
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                carC.start_all_cars();
+                carC.startEngine();
             }
         });
 
         stopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                carC.stop_all_cars();
+                carC.stopEngine();
             }
         });
 
@@ -142,7 +135,6 @@ public class CarView extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 carC.saab_turbo_on();
-
             }
         });
 
