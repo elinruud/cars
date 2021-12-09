@@ -1,11 +1,14 @@
-package Visuals.laboration;
+package com.example.visual_laboation2;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import com.example.cars.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+
 
 // This panel represent the animated part of the view with the car images.
 
@@ -22,19 +25,19 @@ public class DrawPanel extends JPanel{
 
 
     // TODO: Make this genereal for all cars
-    void move_volvo(int x, int y) {
+    void moveVolvo(int x, int y) {
         volvoPoint.x = x;
         volvoPoint.y = y;
     }
 
-    void move_saab(int x, int y) {
+    void moveSaab(int x, int y) {
         saabPoint.x = x;
         saabPoint.y = y;
     }
 
-    void move_scania(int x, int y) {
+    void moveScania(int x, int y) {
         scaniaPoint.x = x;
-        volvoPoint.y = y;
+        scaniaPoint.y = y;
     }
 
     // Initializes the panel and reads the images
@@ -53,6 +56,7 @@ public class DrawPanel extends JPanel{
             volvoImage = ImageIO.read(new FileInputStream("pics/Volvo240.jpg"));
             saabImage = ImageIO.read(new FileInputStream("pics/Saab95.jpg"));
             scaniaImage = ImageIO.read(new FileInputStream("pics/Scania.jpg"));
+
         } catch (IOException ex)
         {
             ex.printStackTrace();
@@ -67,6 +71,7 @@ public class DrawPanel extends JPanel{
         super.paintComponent(g);
         g.drawImage(volvoImage, volvoPoint.x, volvoPoint.y, null); // see javadoc for more info on the parameters
         g.drawImage(saabImage, saabPoint.x, saabPoint.y + 100, null);
-        g.drawImage(scaniaImage, scaniaPoint.x, scaniaPoint.y + 200, null);
+        g.drawImage(scaniaImage, scaniaPoint.x, scaniaPoint.y + 200, null); // see javadoc for more info on the parameters
+
     }
 }
