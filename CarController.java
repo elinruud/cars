@@ -16,18 +16,18 @@ import java.util.ArrayList;
 public class CarController {
     // member fields:
 
-    // The delay (ms) corresponds to 20 updates a sec (hz)
+    // The delay (ms) corresponds to 20 updates a sec (hz)                                      
     private final int delay = 50;
     // The timer is started with an listener (see below) that executes the statements
     // each step between delays.
-    private Timer timer = new Timer(delay, new TimerListener());
+    private Timer timer = new Timer(delay, new TimerListener());                             Skapa timern i main? (är private) eller skapa en getter
 
-    // The frame that represents this instance View of the MVC pattern
-    CarView frame;
+    // The frame that represents this instance View of the MVC pattern                        Allt detta första tycker vi hör till view då
+    CarView frame;                                                                            CarController bara borde skicka signaler till model
     // A list of cars, modify if needed
     ArrayList<Vehicle> vehicles = new ArrayList<>();
-    ArrayList<Saab95> saablist = new ArrayList<>();
-    ArrayList<Scania> scanialist = new ArrayList<>();
+    ArrayList<Saab95> saablist = new ArrayList<>();  
+    ArrayList<Scania> scanialist = new ArrayList<>();                                         
 
     //methods:
 
@@ -52,18 +52,18 @@ public class CarController {
         cc.frame = new CarView("CarSim 1.0", cc);
 
 
-        // Start the timer
-        cc.timer.start();
+        // Start the timer                                                                              cc.timer.start är inte bra 
+        cc.timer.start();                                                                               main borde ha en egen klass/app
     }
 
     /* Each step the TimerListener moves all the cars in the list and tells the
     * view to update its images. Change this method to your needs.
     * */
-    private class TimerListener implements ActionListener {
+    private class TimerListener implements ActionListener {                             Göra till egen controller-klass
         public void actionPerformed(ActionEvent e) {
             for (Vehicle vehicle : vehicles) {
                 vehicle.move();
-                int x = (int) Math.round(vehicle.getX());
+                int x = (int) Math.round(vehicle.getX());                               Räknar den ut för mycket?
                 int y = (int) Math.round(vehicle.getY());
                 if(saablist.contains(vehicle)){
                     frame.drawPanel.moveSaab(x, y);
@@ -79,7 +79,7 @@ public class CarController {
 
             }
         }
-    }
+    }                                                           Härifrån ser det bra ut:)
 
     // Calls the gas method for each car once
     void gas(int amount) {
@@ -89,7 +89,7 @@ public class CarController {
             vehicle.gas(gas);
         }
     }
-
+                                                                
     void brake(int amount) {
         double brake = ((double) amount) / 100;
         for (Vehicle vehicle : vehicles
